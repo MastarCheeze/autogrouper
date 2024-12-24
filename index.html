@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+    <script src="csv_parser.js"></script>
+    <script src="autogrouper.js"></script>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>ALSTAR First Event Autogrouper</h1>
+
+    <p>
+      Data file (.csv):
+      <input type="file" name="data" id="data" accept=".csv" />
+    </p>
+    <p>
+      Names column:
+      <input
+        type="number"
+        name="namesCol"
+        id="namesCol"
+        min="1"
+        size="1"
+        placeholder="1"
+      />
+    </p>
+    <p>
+      Choices column: from
+      <input
+        type="number"
+        name="choicesFromCol"
+        id="choicesFromCol"
+        min="1"
+        size="1"
+        placeholder="1"
+      />
+      to
+      <input
+        type="number"
+        name="choicesToCol"
+        id="choicesToCol"
+        min="1"
+        size="1"
+        placeholder="1"
+      />
+    </p>
+    <p>
+      Labels used for the choices (separated by commas):
+      <input
+        type="text"
+        name="choiceLabels"
+        id="choiceLabels"
+        size="100"
+        placeholder="1st Choice, 2nd Choice, 3rd Choice"
+      />
+    </p>
+    <p>
+      Max members per group:
+      <input
+        type="number"
+        name="maxPeople"
+        id="maxPeople"
+        min="1"
+        size="1"
+        placeholder="1"
+      />
+    </p>
+    <p>
+      <button id="submit">Generate Groupings</button>
+    </p>
+
+    <div class="output">
+      <div>
+        Results:
+        <textarea
+          name="results"
+          id="results"
+          rows="30"
+          placeholder="The calculated groupings will be shown here"
+          disabled
+        ></textarea>
+      </div>
+      <div>
+        Log:
+        <textarea
+          name="log"
+          id="log"
+          rows="30"
+          placeholder="Any warnings or errors will be shown here"
+          wrap="off"
+          disabled
+        ></textarea>
+      </div>
+    </div>
+
+    <br />
+
+    <h3>Instructions</h3>
+    <ol>
+      <li>
+        Download she spreadsheet linked to the Google Forms into as a .csv file.
+      </li>
+    </ol>
+
+    <script src="index.js"></script>
+  </body>
+</html>
