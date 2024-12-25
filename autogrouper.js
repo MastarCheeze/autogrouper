@@ -8,22 +8,12 @@ function getGroupNames(startCol, endCol, header, warn) {
   });
 }
 
-function getChoices(
-  nameCol,
-  startCol,
-  endCol,
-  choiceLabels,
-  groupNames,
-  data,
-  warn,
-) {
+function getChoices(nameCol, startCol, endCol, choiceLabels, groupNames, data, warn) {
   const choiceMap = new Map();
   for (const row of data) {
     const name = row[nameCol];
     if (choiceMap.has(name))
-      warn(
-        `${row[nameCol]} submitted more than once. Using the latest submission to calculate groupings.`,
-      );
+      warn(`${row[nameCol]} submitted more than once. Using the latest submission to calculate groupings.`);
 
     choiceMap.set(
       name,
@@ -69,19 +59,16 @@ function getGroupings(groupNames, choiceMap, choiceLabels, maxPeople, warn) {
 
   // fit randomly and fit groups with least members first
   while (cantFit.length > 0) {
-    const numPeopleLeastGroup = Math.min(
-      ...Array.from(groupMap.values()).map((people) => people.length),
-    );
+    const numPeopleLeastGroup = Math.min(...Array.from(groupMap.values()).map((people) => people.length));
     if (numPeopleLeastGroup >= maxPeople) {
       throw "Can't fit everyone into groups. Please increase the maximum people per group.";
     }
     const availableGroups = groupNames.filter((group) => {
       return groupMap.get(group).length === numPeopleLeastGroup;
     });
-    const group =
-      availableGroups[Math.floor(Math.random() * availableGroups.length)];
+    const group = availableGroups[Math.floor(Math.random() * availableGroups.length)];
     if (groupMap.get(group).length < maxPeople) {
-      const name = cantFit.pop()
+      const name = cantFit.pop();
       groupMap.get(group).push(name);
       personChoiceMap.set(name, "Random");
     }

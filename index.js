@@ -20,11 +20,7 @@ function warn(message) {
 }
 
 function postfix(number) {
-  return `${number}${
-    ((number - (number % 10)) % 100 !== 10
-      ? [null, "st", "nd", "rd"][number % 10]
-      : null) ?? "th"
-  }`;
+  return `${number}${((number - (number % 10)) % 100 !== 10 ? [null, "st", "nd", "rd"][number % 10] : null) ?? "th"}`;
 }
 
 el.submit.addEventListener("click", async () => {
@@ -78,12 +74,7 @@ el.submit.addEventListener("click", async () => {
     }
 
     // calc groupings
-    const groupNames = getGroupNames(
-      choicesFromCol - 1,
-      choicesToCol,
-      data[0],
-      warn,
-    );
+    const groupNames = getGroupNames(choicesFromCol - 1, choicesToCol, data[0], warn);
     const choiceMap = getChoices(
       namesCol - 1,
       choicesFromCol - 1,
@@ -93,20 +84,11 @@ el.submit.addEventListener("click", async () => {
       data.slice(1),
       warn,
     );
-    const [groupMap, personChoiceMap] = getGroupings(
-      groupNames,
-      choiceMap,
-      choiceLabels,
-      maxPeople,
-      warn,
-    );
+    const [groupMap, personChoiceMap] = getGroupings(groupNames, choiceMap, choiceLabels, maxPeople, warn);
 
     // output groupings
     el.results.value = "";
-    const maxNameLen = Array.from(choiceMap.keys()).reduce(
-      (prev, cur) => Math.max(cur.length, prev),
-      0,
-    );
+    const maxNameLen = Array.from(choiceMap.keys()).reduce((prev, cur) => Math.max(cur.length, prev), 0);
     groupMap.forEach((people, group) => {
       el.results.value += group + ` (${people.length})\n`;
       if (el.sortAlpha.checked) {
