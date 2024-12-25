@@ -9,6 +9,39 @@
   <body>
     <h1>ALSTAR First Event Autogrouper</h1>
 
+    <h3>Instructions</h3>
+    <ol>
+      <li>
+        Download the Google Sheets containing the Google Forms data as a .csv
+        file. (Note: The program only works on forms using 'Multiple Choice
+        Grid' for selecting choices.)
+      </li>
+      <li>In the 'Data file (.csv)' option, select and load the .csv file.</li>
+      <li>
+        In the 'Names column' option, enter the column number of the column
+        containing the names in the spreadsheet. Example: Column B contains the
+        names, so enter 2.
+      </li>
+      <li>
+        In the 'Groups column' option, enter the start and end column number of
+        the groups. Example: Column C is the first group and Column E is the
+        last group, so enter 3 and 5.
+      </li>
+      <li>
+        In the next option, enter the labels used for the choices, separated by
+        commas. Example: If my choices are labelled '1st Choice', '2nd Choice'
+        and '3rd Choice', enter '1st Choice, 2nd Choice, 3rd Choice'.
+        Capitalisation matters. You can set more than 3 choices.
+      </li>
+      <li>
+        In the 'Max members per group' option, enter the maximum number of
+        people each group can have.
+      </li>
+      <li>Click the 'Generate Groupings' button.</li>
+    </ol>
+
+    <hr />
+
     <div class="split">
       <div>
         <p>
@@ -27,7 +60,7 @@
           />
         </p>
         <p>
-          Choices column: from
+          Groups column: from
           <input
             type="number"
             name="choicesFromCol"
@@ -115,14 +148,6 @@
         ></textarea>
       </div>
     </div>
-
-    <h3>⬇ Instructions</h3>
-    <ol>
-      <li>
-        Download the Google Sheets containing the Google Forms data as a .csv
-        file. Load it in the settings.
-      </li>
-    </ol>
 
     <script src="index.js"></script>
   </body>
