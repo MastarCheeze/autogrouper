@@ -38,7 +38,7 @@ function getChoices(
 function getGroupings(groupNames, choiceMap, choiceLabels, maxPeople, warn) {
   const groupMap = new Map();
   const cantFit = [];
-  const notRandomMap = new Map(); // number of people that are not selected by random for each group
+  const personChoiceMap = new Map(); // record which choice did each person get
 
   for (const group of groupNames) {
     groupMap.set(group, []);
@@ -58,17 +58,13 @@ function getGroupings(groupNames, choiceMap, choiceLabels, maxPeople, warn) {
       if (groupMap.get(choice).length < maxPeople) {
         groupMap.get(choice).push(name);
         fit = true;
+        personChoiceMap.set(name, choiceLabels[i]);
         break;
       }
     }
     if (!fit) {
       cantFit.push(name);
     }
-  });
-
-  // record not random
-  groupMap.forEach((people, group) => {
-    notRandomMap.set(group, people.length);
   });
 
   // fit randomly and fit groups with least members first
@@ -85,9 +81,11 @@ function getGroupings(groupNames, choiceMap, choiceLabels, maxPeople, warn) {
     const group =
       availableGroups[Math.floor(Math.random() * availableGroups.length)];
     if (groupMap.get(group).length < maxPeople) {
-      groupMap.get(group).push(cantFit.pop());
+      const name = cantFit.pop()
+      groupMap.get(group).push(name);
+      personChoiceMap.set(name, "Random");
     }
   }
 
-  return [groupMap, notRandomMap];
+  return [groupMap, personChoiceMap];
 }

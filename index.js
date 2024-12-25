@@ -6,6 +6,9 @@ const el = [
   "choicesToCol",
   "choiceLabels",
   "maxPeople",
+  "submitOrder",
+  "personChoice",
+  "sort",
   "submit",
   "results",
   "log",
@@ -81,7 +84,7 @@ el.submit.addEventListener("click", async () => {
       data.slice(1),
       warn,
     );
-    const [groupMap, notRandomMap] = getGroupings(
+    const [groupMap, personChoiceMap] = getGroupings(
       groupNames,
       choiceMap,
       choiceLabels,
@@ -90,11 +93,30 @@ el.submit.addEventListener("click", async () => {
     );
 
     // output groupings
-    el.results.value = "===== Calculated Groupings =====\n";
+    el.results.value = "";
     groupMap.forEach((people, group) => {
       el.results.value += group + ` (${people.length})\n`;
-      el.results.value += people.map((s) => s.toUpperCase()).join("\n") + "\n\n";
-    })
+      if (el.sort.checked) {
+        people.sort();
+      }
+      el.results.value += people
+        .map((name) => {
+          let s = name;
+
+          s = s.toUpperCase();
+          if (el.submitOrder.checked) {
+            const order = Array.from(choiceMap.keys());
+            s = `(${order.indexOf(name) + 1}) ${s}`;
+          }
+          if (el.personChoice.checked) {
+            s = `${s} [${personChoiceMap.get(name)}]`;
+          }
+
+          return s;
+        })
+        .join("\n");
+      el.results.value += "\n\n";
+    });
 
     console.log(groupMap);
   } catch (err) {
