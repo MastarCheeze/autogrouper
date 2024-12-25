@@ -40,16 +40,21 @@ function getGroupings(groupNames, choiceMap, choiceLabels, maxPeople, warn) {
     for (const i in choiceLabels) {
       const choice = choices[i];
       if (choice === undefined) {
-        warn(
-          `${name} did not set their ${choiceLabels[i]}. Skipping their ${choiceLabels[i]}. Have you entered the choice labels correctly?`,
-        );
+        if (!fit) {
+          warn(
+            `${name} did not set their ${choiceLabels[i]}. Skipping their ${choiceLabels[i]}. Have you entered the choice labels correctly?`,
+          );
+        } else {
+          warn(
+            `${name} did not set their ${choiceLabels[i]}. This won't affect their grouping. Have you entered the choice labels correctly?`,
+          );
+        }
         continue;
       }
-      if (groupMap.get(choice).length < maxPeople) {
+      if (groupMap.get(choice).length < maxPeople && !fit) {
         groupMap.get(choice).push(name);
         fit = true;
         personChoiceMap.set(name, choiceLabels[i]);
-        break;
       }
     }
     if (!fit) {
