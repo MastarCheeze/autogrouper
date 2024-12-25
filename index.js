@@ -18,6 +18,14 @@ function warn(message) {
   el.log.value += "Warning: " + message + "\n";
 }
 
+function postfix(number) {
+  return `${number}${
+    ((number - (number % 10)) % 100 !== 10
+      ? [null, "st", "nd", "rd"][number % 10]
+      : null) ?? "th"
+  }`;
+}
+
 el.submit.addEventListener("click", async () => {
   try {
     el.log.value = "";
@@ -106,7 +114,7 @@ el.submit.addEventListener("click", async () => {
           s = s.toUpperCase();
           if (el.submitOrder.checked) {
             const order = Array.from(choiceMap.keys());
-            s = `(${order.indexOf(name) + 1}) ${s}`;
+            s = `${postfix(order.indexOf(name) + 1)} ${s}`;
           }
           if (el.personChoice.checked) {
             s = `${s} [${personChoiceMap.get(name)}]`;
