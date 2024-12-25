@@ -8,6 +8,7 @@ const el = [
   "maxPeople",
   "submitOrder",
   "personChoice",
+  "uppercase",
   "sortAlpha",
   "submit",
   "results",
@@ -115,7 +116,7 @@ el.submit.addEventListener("click", async () => {
         .map((name) => {
           let s = name;
 
-          s = s.toUpperCase();
+          if (el.uppercase.checked) s = s.toUpperCase();
           if (el.personChoice.checked) {
             s = `${s.padEnd(maxNameLen)}\t[${personChoiceMap.get(name)}]`;
           }
