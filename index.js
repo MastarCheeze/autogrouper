@@ -8,7 +8,7 @@ const el = [
   "maxPeople",
   "submitOrder",
   "personChoice",
-  "sort",
+  "sortAlpha",
   "submit",
   "results",
   "log",
@@ -102,9 +102,13 @@ el.submit.addEventListener("click", async () => {
 
     // output groupings
     el.results.value = "";
+    const maxNameLen = Array.from(choiceMap.keys()).reduce(
+      (prev, cur) => Math.max(cur.length, prev),
+      0,
+    );
     groupMap.forEach((people, group) => {
       el.results.value += group + ` (${people.length})\n`;
-      if (el.sort.checked) {
+      if (el.sortAlpha.checked) {
         people.sort();
       }
       el.results.value += people
@@ -112,12 +116,12 @@ el.submit.addEventListener("click", async () => {
           let s = name;
 
           s = s.toUpperCase();
+          if (el.personChoice.checked) {
+            s = `${s.padEnd(maxNameLen)}\t[${personChoiceMap.get(name)}]`;
+          }
           if (el.submitOrder.checked) {
             const order = Array.from(choiceMap.keys());
-            s = `${postfix(order.indexOf(name) + 1)} ${s}`;
-          }
-          if (el.personChoice.checked) {
-            s = `${s} [${personChoiceMap.get(name)}]`;
+            s = `${postfix(order.indexOf(name) + 1)}\t${s}`;
           }
 
           return s;
