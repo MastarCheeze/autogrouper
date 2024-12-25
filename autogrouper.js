@@ -47,7 +47,7 @@ function getGroupings(groupNames, choiceMap, choiceLabels, maxPeople, warn) {
   // fit based on choice first
   choiceMap.forEach((choices, name) => {
     let fit = false;
-    for (const i in choices) {
+    for (const i in choiceLabels) {
       const choice = choices[i];
       if (choice === undefined) {
         warn(
