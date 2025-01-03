@@ -18,25 +18,32 @@ button {
   font-size: inherit;
 }
 
+textarea {
+  border: none;
+}
+
 /* Colours */
 :root {
-  --bg-colour: #ffffff;
-  --header-bg-colour: #dddddd;
-  --section-bg-colour: #f4f4f4;
-  --fieldset-bg-colour: #ffdddd;
+  --bg-colour: #eff1f5;
+  --header-bg-colour: #7d1e3e;
+  --section-bg-colour: #ccd0da;
+  --fieldset-bg-colour: #e6e8ec;
 
-  --secondarytext-fg-colour: #888888;
+  --primary-text-fg-colour: #4c4f69;
+  --secondary-text-fg-colour: #6c6f85;
 }
 
 /* Main styles */
 body {
   font-family: Arial, Helvetica, sans-serif;
+  color: var(--primary-text-fg-colour);
   background-color: var(--bg-colour);
   font-size: 0.9rem;
 }
 
 header {
   padding: 24px;
+  color: var(--bg-colour);
   background: var(--header-bg-colour);
   text-align: center;
 }
@@ -69,6 +76,7 @@ input {
 
 textarea {
   padding: 4px 8px;
+  border-radius: 4px;
 }
 
 /* Instructions */
@@ -110,17 +118,17 @@ fieldset legend {
 }
 
 p.description {
-  color: var(--secondarytext-fg-colour);
+  color: var(--secondary-text-fg-colour);
   font-size: 0.8rem;
 }
 
 .field-status-text {
-  color: var(--secondarytext-fg-colour);
+  color: var(--secondary-text-fg-colour);
   font-style: italic;
 }
 
 .field-disabled-text {
-  color: var(--secondarytext-fg-colour);
+  color: var(--secondary-text-fg-colour);
 }
 
 .field-box {
