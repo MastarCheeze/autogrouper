@@ -1,34 +1,96 @@
-const $ = document.querySelector.bind(document);
-const el = [
-  "data",
-  "namesCol",
-  "choicesFromCol",
-  "choicesToCol",
-  "choiceLabels",
-  "maxPeople",
-  "submitOrder",
-  "personChoice",
-  "uppercase",
-  "sortAlpha",
-  "submit",
-  "results",
-  "log",
-].reduce((build, id) => ({ ...build, [id]: $(`#${id}`) }), {});
+let data = null;
+let test;
 
-function warn(message) {
-  el.log.value += "Warning: " + message + "\n";
-}
+el.dataInput.addEventListener("change", async function () {
+  const file = el.dataInput.files[0];
+  data = CSVToArray(await file.text());
 
-function postfix(number) {
-  return `${number}${((number - (number % 10)) % 100 !== 10 ? [null, "st", "nd", "rd"][number % 10] : null) ?? "th"}`;
-}
+  const header = data[0];
 
-el.submit.addEventListener("click", async () => {
+  // names
+  el.namesContainer.innerHTML = "";
+  for (const [key, title] of Object.entries(header.filter((title) => !title.match(/^.*\[(.*)\]$/)))) {
+    const i = parseInt(key) + 1;
+
+    const name = el.namesItem.cloneNode(true);
+    name.id = "names-" + i;
+
+    const nameInput = name.querySelector("#names-input-0");
+    nameInput.id = "names-input-" + i;
+    nameInput.checked = title.toLowerCase().includes("name");
+    const nameLabel = name.querySelector("#names-label-0");
+    nameLabel.id = "names-label-" + i;
+    nameLabel.setAttribute("for", "names-input-" + i);
+    nameLabel.innerText = title;
+    name.style.display = "block";
+
+    el.namesContainer.appendChild(name);
+  }
+
+  if (header.length === 0) {
+    el.namesStatus.innerText = "No columns found.";
+  } else {
+    el.namesStatus.hidden = true;
+  }
+
+  // groups
+  const groupNames = header.map((title) => title.match(/^.*\[(.*)\]$/)?.[1]).filter((title) => title !== undefined);
+  el.groupsContainer.innerHTML = "";
+  for (const [key, title] of Object.entries(groupNames)) {
+    const i = parseInt(key) + 1;
+
+    const group = el.groupsItem.cloneNode(true);
+    group.id = "groups-" + i;
+
+    const groupInput = group.querySelector("#groups-input-0");
+    groupInput.id = "groups-input-" + i;
+    groupInput.checked = true;
+    const groupLabel = group.querySelector("#groups-label-0");
+    groupLabel.id = "groups-label-" + i;
+    groupLabel.setAttribute("for", "groups-input-" + i);
+    groupLabel.innerText = title;
+    group.style.display = "block";
+
+    el.groupsContainer.appendChild(group);
+  }
+
+  if (header.length === 0) {
+    el.groupsStatus.innerText = "No columns found.";
+  } else {
+    el.groupsStatus.hidden = true;
+  }
+
+  // max members
+  el.maxMembersContainer.innerHTML = "";
+  for (const [key, title] of Object.entries(groupNames)) {
+    const i = parseInt(key) + 1;
+
+    const maxMembers = el.maxMembersItem.cloneNode(true);
+    maxMembers.id = "maxMembers-" + i;
+
+    const maxMembersInput = maxMembers.querySelector("#maxMembers-input-0");
+    maxMembersInput.id = "maxMembers-input-" + i;
+    const maxMembersLabel = maxMembers.querySelector("#maxMembers-label-0");
+    maxMembersLabel.id = "maxMembers-label-" + i;
+    maxMembersLabel.innerText = title;
+    maxMembers.style.display = "block";
+
+    el.maxMembersContainer.appendChild(maxMembers);
+  }
+
+  if (header.length === 0) {
+    el.maxMembersStatus.innerText = "No columns found.";
+  } else {
+    el.maxMembersStatus.hidden = true;
+  }
+});
+
+el.submit.addEventListener("click", async function () {
   try {
-    el.log.value = "";
+    clearLog();
 
     // validation
-    const file = el.data.files[0];
+    const file = el.dataInput.files[0];
     if (file === undefined) {
       throw "No data file has been uploaded.";
     }
