@@ -3,7 +3,6 @@
   <head>
     <title>ALSTAR First Event Autogrouper</title>
     <script src="csv_parser.js"></script>
-    <script src="autogrouper.js"></script>
     <link rel="stylesheet" href="index.css" />
   </head>
 
@@ -164,16 +163,16 @@
               <div class="field-box">
                 <div>
                   <div>
+                    <input type="checkbox" name="uppercase" id="uppercase" checked />
+                    <label for="uppercase">Display all names in uppercase</label>
+                  </div>
+                  <div>
                     <input type="checkbox" name="submitOrder" id="submitOrder" />
                     <label for="submitOrder">Show the order of submission for each person</label>
                   </div>
                   <div>
                     <input type="checkbox" name="personChoice" id="personChoice" />
                     <label for="personChoice">Show what choice each person got</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" name="uppercase" id="uppercase" checked />
-                    <label for="uppercase">Display all names in uppercase</label>
                   </div>
                 </div>
 
@@ -222,6 +221,7 @@
     </main>
 
     <script src="utils.js"></script>
+    <script src="autogrouper.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

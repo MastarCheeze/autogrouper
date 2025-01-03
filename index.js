@@ -172,6 +172,7 @@ el.sameMaxMembersNoInput.addEventListener("change", sameMaxMembersHandler);
 el.maxMembersAllInput.addEventListener("change", updateMaxMembers);
 
 el.submit.addEventListener("click", async function () {
+  let success = false;
   try {
     clearLog();
 
@@ -207,49 +208,131 @@ el.submit.addEventListener("click", async function () {
       return;
     }
 
+    // prepare data
+    const groupNames = groupCols.map((id) => data[0][id].match(/^.*\[(.*)\]$/)[1]);
+
+    const choiceMap = new Map();
+    for (const row of data.slice(1)) {
+      const name = row[namesCol];
+      if (choiceMap.has(name))
+        logWarning(`${name} submitted more than once. Using the latest submission to calculate groupings.`);
+
+      const choices = row.filter((_, i) => groupCols.includes(i));
+      choiceMap.set(
+        name,
+        choiceLabels.map((label) => groupNames[choices.indexOf(label)]),
+      );
+    }
+
+    const maxMembersMap = new Map();
+    for (const [group, maxMembers] of Object.values(groupNames).map((group, i) => [group, maxMembersPerGroup[i]])) {
+      maxMembersMap.set(group, maxMembers);
+    }
+
     // calc groupings
-    const groupNames = getGroupNames(choicesFromCol - 1, choicesToCol, data[0], warn);
-    const choiceMap = getChoices(
-      namesCol - 1,
-      choicesFromCol - 1,
-      choicesToCol,
-      choiceLabels,
-      groupNames,
-      data.slice(1),
-      warn,
-    );
-    const [groupMap, personChoiceMap] = getGroupings(groupNames, choiceMap, choiceLabels, maxPeople, warn);
+    const groupMap = new Map();
+    const cantFit = [];
 
-    // output groupings
-    el.results.value = "";
-    const maxNameLen = Array.from(choiceMap.keys()).reduce((prev, cur) => Math.max(cur.length, prev), 0);
-    groupMap.forEach((people, group) => {
-      el.results.value += group + ` (${people.length})\n`;
-      if (el.sortAlpha.checked) {
-        people.sort();
+    for (const group of groupNames) {
+      groupMap.set(group, []);
+    }
+
+    // fit based on choice first
+    choiceMap.forEach((choices, name) => {
+      let fit = false;
+      for (const i in choiceLabels) {
+        const group = choices[i];
+
+        if (group === undefined) {
+          if (!fit) {
+            logWarning(
+              `${name} did not set their ${choiceLabels[i]}. Skipping their ${choiceLabels[i]}. If this warning appears a lot, check if you have entered the choice labels correctly.`,
+            );
+          } else {
+            logWarning(
+              `${name} did not set their ${choiceLabels[i]}. This won't affect their grouping. If this warning appears a lot, check if you have entered the choice labels correctly.`,
+            );
+          }
+          continue;
+        }
+
+        if (!fit && groupMap.get(group).length < maxMembersMap.get(group)) {
+          groupMap.get(group).push([name, choiceLabels[i]]);
+          fit = true;
+        }
       }
-      el.results.value += people
-        .map((name) => {
-          let s = name;
-
-          if (el.uppercase.checked) s = s.toUpperCase();
-          if (el.personChoice.checked) {
-            s = `${s.padEnd(maxNameLen)}\t[${personChoiceMap.get(name)}]`;
-          }
-          if (el.submitOrder.checked) {
-            const order = Array.from(choiceMap.keys());
-            s = `${postfix(order.indexOf(name) + 1)}\t${s}`;
-          }
-
-          return s;
-        })
-        .join("\n");
-      el.results.value += "\n\n";
+      if (!fit) {
+        cantFit.push(name);
+      }
     });
 
+    // fit randomly and fit groups with least members first
+    while (cantFit.length > 0) {
+      const numPeopleMostLacking = Math.max(
+        ...Array.from(groupMap.entries()).map(([group, people]) => maxMembersMap.get(group) - people.length),
+      );
+      if (numPeopleMostLacking === 0) {
+        logError(
+          `${cantFit.length} ${cantFit.length > 1 ? "people" : "person"} cannot be fit into any group. Please increase the maximum members.`,
+        );
+        return;
+      }
+
+      const availableGroups = groupNames.filter(
+        (group) => maxMembersMap.get(group) - groupMap.get(group).length === numPeopleMostLacking,
+      );
+      console.log(maxMembersMap);
+      console.log(availableGroups);
+      console.log(numPeopleMostLacking);
+      const group = availableGroups[Math.floor(Math.random() * availableGroups.length)];
+      console.log(group);
+      const name = cantFit.pop();
+      groupMap.get(group).push([name, "Random"]);
+    }
+
     console.log(groupMap);
+
+    // output groupings
+    clearOut();
+    const maxNameLen = Array.from(choiceMap.keys()).reduce((prev, cur) => Math.max(cur.length, prev), 0);
+    groupMap.forEach((people, group) => {
+      out(group + ` (${people.length})`);
+      if (el.sortAlphaInput.checked) {
+        people.sort();
+      }
+
+      if (people.length > 0) {
+        out(
+          people
+            .map(([name, choice]) => {
+              let s = name;
+
+              if (el.uppercaseInput.checked) s = s.toUpperCase();
+              if (el.personChoiceInput.checked) {
+                s = `${s.padEnd(maxNameLen)}\t[${choice}]`;
+              }
+              if (el.submitOrderInput.checked) {
+                const order = Array.from(choiceMap.keys());
+                s = `${postfix(order.indexOf(name) + 1)}\t${s}`;
+              }
+
+              return s;
+            })
+            .join("\n"),
+        );
+      } else {
+        out("-");
+      }
+      out();
+    });
+
+    success = true;
   } catch (err) {
-    el.log.value += "Error: " + err + "\n";
+    logError("An unknown error has occured.");
     console.log(err);
+  } finally {
+    log();
+    if (success) log(`Grouping completed successfully with ${warningCount} warnings.`);
+    else log(`Grouping stopped because of an error. There are ${warningCount} other warnings.`);
   }
 });

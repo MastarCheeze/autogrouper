@@ -7,6 +7,7 @@ function postfix(number) {
 
 const el = {
   log: $("#log"),
+  results: $("#results"),
   submit: $("#submit"),
   dataInput: $("#data"),
   choiceLabelsInput: $("#choiceLabels"),
@@ -23,15 +24,39 @@ const el = {
   maxMembersItem: $("#maxMembers-template"),
   maxMembersContainer: $("#maxMembers-container"),
   maxMembersStatus: $("#maxMembers-status"),
+  uppercaseInput: $("#uppercase"),
+  submitOrderInput: $("#submitOrder"),
+  personChoiceInput: $("#personChoice"),
+  sortAlphaInput: $("#sortAlpha"),
+};
+
+let warningCount = 0;
+let errorCount = 0;
+
+function log(message) {
+  el.log.value += (message ?? "") + "\n";
 }
 
 function logWarning(message) {
   el.log.value += `Warning: ${message}\n`;
+  warningCount++;
 }
 
 function logError(message) {
   el.log.value += `Error: ${message}\n`;
+  errorCount++;
 }
- function clearLog() {
+
+function clearLog() {
   el.log.value = "";
+  warningCount = 0;
+  errorCount = 0;
+}
+
+function out(line) {
+  el.results.value += (line ?? "") + "\n";
+}
+
+function clearOut() {
+  el.results.value = "";
 }
