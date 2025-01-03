@@ -74,7 +74,6 @@ textarea {
 /* Instructions */
 .instructions summary {
   user-select: none;
-  cursor: pointer;
 }
 
 .instructions summary h2 {
@@ -118,6 +117,10 @@ p.description {
 .field-status-text {
   color: var(--secondarytext-fg-colour);
   font-style: italic;
+}
+
+.field-disabled-text {
+  color: var(--secondarytext-fg-colour);
 }
 
 .field-box {

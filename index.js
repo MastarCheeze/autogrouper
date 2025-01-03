@@ -156,6 +156,10 @@ const sameMaxMembersHandler = function () {
       el.disabled = true;
     }
 
+    for (const el of $$("input[name='maxMembers'] + span")) {
+      el.classList.add("field-disabled-text");
+    }
+
     updateMaxMembers();
   } else {
     el.maxMembersAllInput.disabled = true;
@@ -163,8 +167,13 @@ const sameMaxMembersHandler = function () {
     for (const el of $$("input[name='maxMembers']")) {
       el.disabled = false;
     }
+    
+    for (const el of $$("input[name='maxMembers'] + span")) {
+      el.classList.remove("field-disabled-text");
+    }
   }
 };
+
 el.sameMaxMembersYesInput.addEventListener("change", sameMaxMembersHandler);
 el.sameMaxMembersNoInput.addEventListener("change", sameMaxMembersHandler);
 el.maxMembersAllInput.addEventListener("change", updateMaxMembers);
