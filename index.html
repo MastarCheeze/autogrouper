@@ -63,13 +63,15 @@
               <div class="field-box">
                 <p class="description">The column that contains all names.</p>
 
-                <div id="names-container">
-                  <div id="names-0" hidden>
+                <div>
+                  <div id="names-0" style="display: none;">
                     <input type="radio" name="names" id="names-input-0" />
-                    <label for="names-0" id="names-text-0"></label>
+                    <label for="names-input-0" id="names-label-0"></label>
                   </div>
 
                   <div id="names-status" class="field-status-text">Upload data file to see options</div>
+
+                  <div id="names-container"></div>
                 </div>
               </div>
             </fieldset>
@@ -80,13 +82,15 @@
               <div class="field-box">
                 <p class="description">The columns that contain choices for each group</p>
 
-                <div id="groups-container">
-                  <div id="groups-0" hidden>
+                <div>
+                  <div id="groups-0" style="display: none;">
                     <input type="checkbox" name="groups" id="groups-input-0" />
-                    <label for="groups-text-0"></label>
+                    <label for="groups-input-0" id="groups-label-0"></label>
                   </div>
 
                   <div id="groups-status" class="field-status-text">Upload data file to see options</div>
+
+                  <div id="groups-container"></div>
                 </div>
               </div>
             </fieldset>
@@ -130,13 +134,15 @@
                   </div>
                 </div>
 
-                <div id="maxMembers-container">
-                  <div id="maxMembers-0" hidden>
-                    <span id="maxMembers-text-0"></span>
+                <div>
+                  <div id="maxMembers-0" style="display: none;">
                     <input type="number" name="maxMembers" id="maxMembers-input-0" min="1" size="1" value="1" />
+                    <span id="maxMembers-label-0"></span>
                   </div>
 
                   <div id="maxMembers-status" class="field-status-text">Upload data file to see options</div>
+
+                  <div id="maxMembers-container"></div>
                 </div>
               </div>
             </fieldset>
@@ -204,6 +210,7 @@
       </section>
     </main>
 
+    <script src="utils.js"></script>
     <script src="index.js"></script>
   </body>
 </html>
