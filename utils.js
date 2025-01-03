@@ -1,4 +1,5 @@
 const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
 
 function postfix(number) {
   return `${number}${((number - (number % 10)) % 100 !== 10 ? [null, "st", "nd", "rd"][number % 10] : null) ?? "th"}`;
@@ -25,11 +26,11 @@ const el = {
 }
 
 function logWarning(message) {
-  el.log.value += `Warning ${message}\n`;
+  el.log.value += `Warning: ${message}\n`;
 }
 
 function logError(message) {
-  el.log.value += `Error ${message}\n`;
+  el.log.value += `Error: ${message}\n`;
 }
  function clearLog() {
   el.log.value = "";

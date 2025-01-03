@@ -23,6 +23,9 @@ el.dataInput.addEventListener("change", async function () {
 
     el.namesContainer.appendChild(name);
   }
+  if (!$("input[name='names']:checked")) {
+    $("input[name='names']:not([id*='template'])").checked = true;
+  }
 
   if (header.length === 0) {
     el.namesStatus.innerText = "No columns found.";
@@ -90,7 +93,7 @@ el.dataInput.addEventListener("change", async function () {
   };
   choicesSorted.sort((a, b) => {
     a = a.toLowerCase();
-    let aVal = parseInt(a);
+    let aVal = parseInt(a.match(/\d+/)?.[0]);
     if (isNaN(aVal)) {
       for (const [key, val] of Object.entries(sortMap)) {
         if (a.includes(key)) {
@@ -101,7 +104,7 @@ el.dataInput.addEventListener("change", async function () {
     }
 
     b = b.toLowerCase();
-    let bVal = parseInt(b);
+    let bVal = parseInt(b.match(/\d+/)?.[0]);
     if (isNaN(bVal)) {
       for (const [key, val] of Object.entries(sortMap)) {
         if (b.includes(key)) {
@@ -140,7 +143,7 @@ el.dataInput.addEventListener("change", async function () {
 
 const updateMaxMembers = function () {
   const val = el.maxMembersAllInput.value;
-  for (const el of document.querySelectorAll("input[name='maxMembers']")) {
+  for (const el of $$("input[name='maxMembers']")) {
     el.value = val;
   }
 };
@@ -150,7 +153,7 @@ const sameMaxMembersHandler = function () {
     el.maxMembersAllText.classList.remove("field-disabled-text");
     el.maxMembersAllInput.disabled = false;
 
-    for (const el of document.querySelectorAll("input[name='maxMembers']")) {
+    for (const el of $$("input[name='maxMembers']")) {
       el.disabled = true;
     }
 
@@ -159,7 +162,7 @@ const sameMaxMembersHandler = function () {
     el.maxMembersAllText.classList.add("field-disabled-text");
     el.maxMembersAllInput.disabled = true;
 
-    for (const el of document.querySelectorAll("input[name='maxMembers']")) {
+    for (const el of $$("input[name='maxMembers']")) {
       el.disabled = false;
     }
   }
@@ -173,49 +176,35 @@ el.submit.addEventListener("click", async function () {
     clearLog();
 
     // validation
-    const file = el.dataInput.files[0];
-    if (file === undefined) {
-      throw "No data file has been uploaded.";
-    }
-    const data = CSVToArray(await file.text());
-
-    const namesCol = Number.parseInt(el.namesCol.value);
-    if (Number.isNaN(namesCol)) {
-      throw "Invalid column number for the names column.";
-    } else if (namesCol < 1 || namesCol > data[0].length) {
-      throw "Column number for names is out of range.";
+    if (data === null) {
+      logError("No data file has been uploaded.");
+      return;
     }
 
-    const choicesFromCol = Number.parseInt(el.choicesFromCol.value);
-    if (Number.isNaN(choicesFromCol)) {
-      throw "Invalid 'from' column number for the choices columns.";
-    } else if (choicesFromCol < 1 || choicesFromCol > data[0].length) {
-      throw "'From' column number for the choices columns is out of range.";
+    const namesCol = parseInt($("input[name='names']:checked:not([id*='template'])")?.id?.match(/\d+/)?.[0]); // bruh
+
+    const groupCols = Array.from($$("input[name='groups']:checked:not([id*='template'])")).map((el) =>
+      parseInt(el.id.match(/\d+/)?.[0]),
+    );
+    if (groupCols.length === 0) {
+      logError("No groups selected.");
+      return;
+    } else if (groupCols.length === 1) {
+      logWarning("Only one group is selected.");
     }
 
-    const choicesToCol = Number.parseInt(el.choicesToCol.value);
-    if (Number.isNaN(choicesToCol)) {
-      throw "Invalid 'to' column number for the choices columns.";
-    } else if (choicesToCol < 1 || choicesToCol > data[0].length) {
-      throw "'To' column number for the choices columns is out of range.";
-    } else if (choicesToCol < choicesFromCol) {
-      throw "'To' column number is less than 'from' column number for the choices columns.";
-    }
-
-    if (namesCol >= choicesFromCol && namesCol <= choicesToCol) {
-      throw "The choices columns includes the names column. Have you entered the column numbers correctly?";
-    }
-
-    const choiceLabels = el.choiceLabels.value.split(",").map((s) => s.trim());
+    const choiceLabels = el.choiceLabelsInput.value.split(",").map((s) => s.trim());
     if (choiceLabels[0] === "") {
-      throw "No choice labels provided.";
+      logError("No choice labels provided.");
+      return;
     }
 
-    const maxPeople = Number.parseInt(el.maxPeople.value);
-    if (Number.isNaN(maxPeople)) {
-      throw "Invalid maximum number of members per group.";
-    } else if (maxPeople < 1) {
-      throw "Maximum number of members per group is out of range.";
+    const maxMembersPerGroup = Array.from($$("input[name='maxMembers']:not([id*='template'])")).map((el) =>
+      parseInt(el.value),
+    );
+    if (maxMembersPerGroup.some((el) => isNaN(el) || el < 1)) {
+      logError("Invalid maximum number of members per group.");
+      return;
     }
 
     // calc groupings
