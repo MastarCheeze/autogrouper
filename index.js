@@ -150,7 +150,6 @@ const updateMaxMembers = function () {
 
 const sameMaxMembersHandler = function () {
   if (el.sameMaxMembersYesInput.checked) {
-    el.maxMembersAllText.classList.remove("field-disabled-text");
     el.maxMembersAllInput.disabled = false;
 
     for (const el of $$("input[name='maxMembers']")) {
@@ -159,7 +158,6 @@ const sameMaxMembersHandler = function () {
 
     updateMaxMembers();
   } else {
-    el.maxMembersAllText.classList.add("field-disabled-text");
     el.maxMembersAllInput.disabled = true;
 
     for (const el of $$("input[name='maxMembers']")) {
@@ -231,6 +229,7 @@ el.submit.addEventListener("click", async function () {
 
     // calc groupings
     const groupMap = autogroup(groupNames, maxMembersMap, choiceMap, choiceLabels);
+    if (errorCount) return;
 
     // output groupings
     clearOut();

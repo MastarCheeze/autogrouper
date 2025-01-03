@@ -49,7 +49,7 @@
               <legend>Data file</legend>
 
               <div class="field-box">
-                <p class="description">CSV file exported from Google Sheets.</p>
+                <p class="description">Load the CSV file exported from Google Sheets.</p>
                 <input type="file" name="data" id="data" accept=".csv" />
               </div>
             </fieldset>
@@ -57,10 +57,10 @@
 
           <div class="field-group">
             <fieldset>
-              <legend>Names</legend>
+              <legend>Name</legend>
 
               <div class="field-box">
-                <p class="description">The column that contains all names.</p>
+                <p class="description">Select the question that asks for the name.</p>
 
                 <div>
                   <div id="names-template" style="display: none">
@@ -79,7 +79,7 @@
               <legend>Groups</legend>
 
               <div class="field-box">
-                <p class="description">The columns that contain choices for each group</p>
+                <p class="description">Select all groups.</p>
 
                 <div>
                   <div id="groups-template" style="display: none">
@@ -101,9 +101,9 @@
 
               <div class="field-box">
                 <p class="description">
-                  Labels used for the choices, in the correct order from first choice to last choice.
+                  Enter the labels used for the 1st choice, 2nd choice, etc. Values are comma separated, capitalisation
+                  matters.
                 </p>
-                <p class="description">Values are comma separated, capitalisation matters.</p>
                 <input
                   type="text"
                   name="choiceLabels"
@@ -118,14 +118,13 @@
               <legend>Max members</legend>
 
               <div class="field-box">
-                <p class="description">Maximum number of members for each group.</p>
+                <p class="description">Enter maximum number of members for each group.</p>
 
                 <div>
                   <div>
                     <input type="radio" name="sameMaxMembers" id="sameMaxMembers-yes" checked />
                     <label for="sameMaxMembers-yes">Same for all groups</label>
                     <div class="field-left-align-buttons">
-                      <span id="maxMembers-all-text">Max members for all groups</span>
                       <input type="number" name="maxMembers-all" id="maxMembers-all" min="1" size="1" value="1" />
                     </div>
                   </div>
@@ -150,7 +149,9 @@
                     <span id="maxMembers-label-template"></span>
                   </div>
 
-                  <div id="maxMembers-status" class="field-status-text">Upload data file to see options</div>
+                  <div id="maxMembers-status" class="field-status-text field-left-align-buttons">
+                    Upload data file to see options
+                  </div>
 
                   <div id="maxMembers-container" class="field-left-align-buttons"></div>
                 </div>
@@ -168,7 +169,7 @@
                   </div>
                   <div>
                     <input type="checkbox" name="submitOrder" id="submitOrder" />
-                    <label for="submitOrder">Show the order of submission for each person</label>
+                    <label for="submitOrder">Show the order of submission</label>
                   </div>
                   <div>
                     <input type="checkbox" name="personChoice" id="personChoice" />
@@ -178,12 +179,12 @@
 
                 <div>
                   <div>
-                    <input type="radio" name="sort" id="sortSubmit" checked />
-                    <label for="sortSubmit">Sort names by order of submission</label>
-                  </div>
-                  <div>
                     <input type="radio" name="sort" id="sortAlpha" checked />
                     <label for="sortAlpha">Sort names by alphabetical order</label>
+                  </div>
+                  <div>
+                    <input type="radio" name="sort" id="sortSubmit" />
+                    <label for="sortSubmit">Sort names by order of submission</label>
                   </div>
                 </div>
               </div>

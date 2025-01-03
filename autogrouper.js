@@ -52,7 +52,7 @@ function autogroup(groupNames, maxMembersMap, choiceMap, choiceLabels) {
       (group) => maxMembersMap.get(group) - groupMap.get(group).length === numPeopleMostLacking,
     );
     const group = availableGroups[Math.floor(Math.random() * availableGroups.length)];
-    const name = cantFit.pop();
+    const name = cantFit.shift();
     groupMap.get(group).push([name, "Random"]);
   }
 
