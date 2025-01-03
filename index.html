@@ -102,9 +102,9 @@
 
               <div class="field-box">
                 <p class="description">
-                  Labels used for the choices, in the correct order from first choice to last choice (separated by
-                  commas, capitalisation matters).
+                  Labels used for the choices, in the correct order from first choice to last choice.
                 </p>
+                <p class="description">Values are comma separated, capitalisation matters.</p>
                 <input
                   type="text"
                   name="choiceLabels"
@@ -126,8 +126,8 @@
                     <input type="radio" name="sameMaxMembers" id="sameMaxMembers-yes" checked />
                     <label for="sameMaxMembers-yes">Same for all groups</label>
                     <div class="field-left-align-buttons">
-                      Max members for all groups
-                      <input type="number" name="maxPeople" id="maxPeople-all" min="1" size="1" value="1" />
+                      <span id="maxMembers-all-text">Max members for all groups</span>
+                      <input type="number" name="maxMembers-all" id="maxMembers-all" min="1" size="1" value="1" />
                     </div>
                   </div>
 
@@ -139,7 +139,15 @@
 
                 <div>
                   <div id="maxMembers-template" style="display: none">
-                    <input type="number" name="maxMembers" id="maxMembers-input-template" min="1" size="1" value="1" />
+                    <input
+                      type="number"
+                      name="maxMembers"
+                      id="maxMembers-input-template"
+                      min="1"
+                      size="1"
+                      value="1"
+                      disabled
+                    />
                     <span id="maxMembers-label-template"></span>
                   </div>
 

@@ -120,6 +120,10 @@ p.description {
   font-style: italic;
 }
 
+.field-disabled-text {
+  color: var(--secondarytext-fg-colour);
+}
+
 .field-box {
   display: flex;
   flex-direction: column;

@@ -138,6 +138,36 @@ el.dataInput.addEventListener("change", async function () {
   }
 });
 
+const updateMaxMembers = function () {
+  const val = el.maxMembersAllInput.value;
+  for (const el of document.querySelectorAll("input[name='maxMembers']")) {
+    el.value = val;
+  }
+};
+
+const sameMaxMembersHandler = function () {
+  if (el.sameMaxMembersYesInput.checked) {
+    el.maxMembersAllText.classList.remove("field-disabled-text");
+    el.maxMembersAllInput.disabled = false;
+
+    for (const el of document.querySelectorAll("input[name='maxMembers']")) {
+      el.disabled = true;
+    }
+
+    updateMaxMembers();
+  } else {
+    el.maxMembersAllText.classList.add("field-disabled-text");
+    el.maxMembersAllInput.disabled = true;
+
+    for (const el of document.querySelectorAll("input[name='maxMembers']")) {
+      el.disabled = false;
+    }
+  }
+};
+el.sameMaxMembersYesInput.addEventListener("change", sameMaxMembersHandler);
+el.sameMaxMembersNoInput.addEventListener("change", sameMaxMembersHandler);
+el.maxMembersAllInput.addEventListener("change", updateMaxMembers);
+
 el.submit.addEventListener("click", async function () {
   try {
     clearLog();
