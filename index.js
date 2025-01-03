@@ -1,5 +1,4 @@
 let data = null;
-let test;
 
 el.dataInput.addEventListener("change", async function () {
   const file = el.dataInput.files[0];
@@ -9,16 +8,14 @@ el.dataInput.addEventListener("change", async function () {
 
   // names
   el.namesContainer.innerHTML = "";
-  for (const [key, title] of Object.entries(header.filter((title) => !title.match(/^.*\[(.*)\]$/)))) {
-    const i = parseInt(key) + 1;
-
+  for (const [i, title] of Object.entries(header).filter(([_, title]) => !title.match(/^.*\[(.*)\]$/))) {
     const name = el.namesItem.cloneNode(true);
     name.id = "names-" + i;
 
-    const nameInput = name.querySelector("#names-input-0");
+    const nameInput = name.querySelector("#names-input-template");
     nameInput.id = "names-input-" + i;
     nameInput.checked = title.toLowerCase().includes("name");
-    const nameLabel = name.querySelector("#names-label-0");
+    const nameLabel = name.querySelector("#names-label-template");
     nameLabel.id = "names-label-" + i;
     nameLabel.setAttribute("for", "names-input-" + i);
     nameLabel.innerText = title;
@@ -34,18 +31,18 @@ el.dataInput.addEventListener("change", async function () {
   }
 
   // groups
-  const groupNames = header.map((title) => title.match(/^.*\[(.*)\]$/)?.[1]).filter((title) => title !== undefined);
+  const groupNames = header
+    .map((title, i) => [i, title.match(/^.*\[(.*)\]$/)?.[1]])
+    .filter(([_, title]) => title !== undefined);
   el.groupsContainer.innerHTML = "";
-  for (const [key, title] of Object.entries(groupNames)) {
-    const i = parseInt(key) + 1;
-
+  for (const [i, title] of groupNames) {
     const group = el.groupsItem.cloneNode(true);
     group.id = "groups-" + i;
 
-    const groupInput = group.querySelector("#groups-input-0");
+    const groupInput = group.querySelector("#groups-input-template");
     groupInput.id = "groups-input-" + i;
     groupInput.checked = true;
-    const groupLabel = group.querySelector("#groups-label-0");
+    const groupLabel = group.querySelector("#groups-label-template");
     groupLabel.id = "groups-label-" + i;
     groupLabel.setAttribute("for", "groups-input-" + i);
     groupLabel.innerText = title;
@@ -60,17 +57,73 @@ el.dataInput.addEventListener("change", async function () {
     el.groupsStatus.hidden = true;
   }
 
+  // choice labels
+  const choices = new Set();
+  for (const row of data.slice(1)) {
+    for (const [i, _] of groupNames) {
+      if (row[i] !== "") choices.add(row[i]);
+    }
+  }
+
+  const choicesSorted = Array.from(choices);
+  const sortMap = {
+    first: 1,
+    second: 2,
+    third: 3,
+    fourth: 4,
+    fifth: 5,
+    sixth: 6,
+    seventh: 7,
+    eighth: 8,
+    ninth: 9,
+    tenth: 10,
+    eleventh: 11,
+    twelfth: 12,
+    thirteenth: 13,
+    fourteenth: 14,
+    fifteenth: 15,
+    sixteenth: 16,
+    seventeenth: 17,
+    eighteenth: 18,
+    nineteenth: 19,
+    twentieth: 20,
+  };
+  choicesSorted.sort((a, b) => {
+    a = a.toLowerCase();
+    let aVal = parseInt(a);
+    if (isNaN(aVal)) {
+      for (const [key, val] of Object.entries(sortMap)) {
+        if (a.includes(key)) {
+          aVal = val;
+          break;
+        }
+      }
+    }
+
+    b = b.toLowerCase();
+    let bVal = parseInt(b);
+    if (isNaN(bVal)) {
+      for (const [key, val] of Object.entries(sortMap)) {
+        if (b.includes(key)) {
+          bVal = val;
+          break;
+        }
+      }
+    }
+
+    return aVal - bVal;
+  });
+  el.choiceLabelsInput.value = choicesSorted.join(", ");
+
   // max members
   el.maxMembersContainer.innerHTML = "";
-  for (const [key, title] of Object.entries(groupNames)) {
-    const i = parseInt(key) + 1;
-
+  for (const [i, title] of groupNames) {
     const maxMembers = el.maxMembersItem.cloneNode(true);
     maxMembers.id = "maxMembers-" + i;
 
-    const maxMembersInput = maxMembers.querySelector("#maxMembers-input-0");
+    const maxMembersInput = maxMembers.querySelector("#maxMembers-input-template");
     maxMembersInput.id = "maxMembers-input-" + i;
-    const maxMembersLabel = maxMembers.querySelector("#maxMembers-label-0");
+    const maxMembersLabel = maxMembers.querySelector("#maxMembers-label-template");
     maxMembersLabel.id = "maxMembers-label-" + i;
     maxMembersLabel.innerText = title;
     maxMembers.style.display = "block";

@@ -64,9 +64,9 @@
                 <p class="description">The column that contains all names.</p>
 
                 <div>
-                  <div id="names-0" style="display: none;">
-                    <input type="radio" name="names" id="names-input-0" />
-                    <label for="names-input-0" id="names-label-0"></label>
+                  <div id="names-template" style="display: none">
+                    <input type="radio" name="names" id="names-input-template" />
+                    <label for="names-input-template" id="names-label-template"></label>
                   </div>
 
                   <div id="names-status" class="field-status-text">Upload data file to see options</div>
@@ -83,9 +83,9 @@
                 <p class="description">The columns that contain choices for each group</p>
 
                 <div>
-                  <div id="groups-0" style="display: none;">
-                    <input type="checkbox" name="groups" id="groups-input-0" />
-                    <label for="groups-input-0" id="groups-label-0"></label>
+                  <div id="groups-template" style="display: none">
+                    <input type="checkbox" name="groups" id="groups-input-template" />
+                    <label for="groups-input-template" id="groups-label-template"></label>
                   </div>
 
                   <div id="groups-status" class="field-status-text">Upload data file to see options</div>
@@ -101,7 +101,10 @@
               <legend>Choice labels</legend>
 
               <div class="field-box">
-                <p class="description">Labels used for the choices (separated by commas, capitalisation matters).</p>
+                <p class="description">
+                  Labels used for the choices, in the correct order from first choice to last choice (separated by
+                  commas, capitalisation matters).
+                </p>
                 <input
                   type="text"
                   name="choiceLabels"
@@ -135,9 +138,9 @@
                 </div>
 
                 <div>
-                  <div id="maxMembers-0" style="display: none;">
-                    <input type="number" name="maxMembers" id="maxMembers-input-0" min="1" size="1" value="1" />
-                    <span id="maxMembers-label-0"></span>
+                  <div id="maxMembers-template" style="display: none">
+                    <input type="number" name="maxMembers" id="maxMembers-input-template" min="1" size="1" value="1" />
+                    <span id="maxMembers-label-template"></span>
                   </div>
 
                   <div id="maxMembers-status" class="field-status-text">Upload data file to see options</div>
