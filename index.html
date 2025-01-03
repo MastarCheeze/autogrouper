@@ -63,16 +63,13 @@
               <div class="field-box">
                 <p class="description">The column that contains all names.</p>
 
-                <div>
-                  <div>
-                    <input type="radio" name="names" id="names-1" />
-                    <label for="names-1">Testing 123</label>
+                <div id="names-container">
+                  <div id="names-0" hidden>
+                    <input type="radio" name="names" id="names-input-0" />
+                    <label for="names-0" id="names-text-0"></label>
                   </div>
 
-                  <div>
-                    <input type="radio" name="names" id="names-2" />
-                    <label for="names-2">Testing 456</label>
-                  </div>
+                  <div id="names-status" class="field-status-text">Upload data file to see options</div>
                 </div>
               </div>
             </fieldset>
@@ -83,16 +80,13 @@
               <div class="field-box">
                 <p class="description">The columns that contain choices for each group</p>
 
-                <div>
-                  <div>
-                    <input type="checkbox" name="groups" id="groups-1" />
-                    <label for="groups-1">Group 123</label>
+                <div id="groups-container">
+                  <div id="groups-0" hidden>
+                    <input type="checkbox" name="groups" id="groups-input-0" />
+                    <label for="groups-text-0"></label>
                   </div>
 
-                  <div>
-                    <input type="checkbox" name="groups" id="groups-2" />
-                    <label for="groups-2">Group 456</label>
-                  </div>
+                  <div id="groups-status" class="field-status-text">Upload data file to see options</div>
                 </div>
               </div>
             </fieldset>
@@ -136,15 +130,13 @@
                   </div>
                 </div>
 
-                <div>
-                  <div>
-                    Group 123
-                    <input type="number" name="maxPeople" id="maxPeople-1" min="1" size="1" value="1" />
+                <div id="maxMembers-container">
+                  <div id="maxMembers-0" hidden>
+                    <span id="maxMembers-text-0"></span>
+                    <input type="number" name="maxMembers" id="maxMembers-input-0" min="1" size="1" value="1" />
                   </div>
-                  <div>
-                    Group 456
-                    <input type="number" name="maxPeople" id="maxPeople-2" min="1" size="1" value="1" />
-                  </div>
+
+                  <div id="maxMembers-status" class="field-status-text">Upload data file to see options</div>
                 </div>
               </div>
             </fieldset>

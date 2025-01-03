@@ -25,7 +25,7 @@ button {
   --section-bg-colour: #f4f4f4;
   --fieldset-bg-colour: #ffdddd;
 
-  --description-fg-colour: #888888;
+  --secondarytext-fg-colour: #888888;
 }
 
 /* Main styles */
@@ -111,8 +111,13 @@ fieldset legend {
 }
 
 p.description {
-  color: var(--description-fg-colour);
+  color: var(--secondarytext-fg-colour);
   font-size: 0.8rem;
+}
+
+.field-status-text {
+  color: var(--secondarytext-fg-colour);
+  font-style: italic;
 }
 
 .field-box {
