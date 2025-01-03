@@ -1,14 +1,148 @@
-.split {
-  display: flex;
-  width: 100%;
-  gap: 1rem;
+/* CSS Reset */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.split > div {
+ol,
+ul {
+  padding-left: 40px;
+}
+
+fieldset {
+  border: none;
+}
+
+button {
+  font-size: inherit;
+}
+
+/* Colours */
+:root {
+  --bg-colour: #ffffff;
+  --header-bg-colour: #dddddd;
+  --section-bg-colour: #f4f4f4;
+  --fieldset-bg-colour: #ffdddd;
+
+  --description-fg-colour: #888888;
+}
+
+/* Main styles */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-colour);
+  font-size: 0.9rem;
+}
+
+header {
+  padding: 24px;
+  background: var(--header-bg-colour);
+  text-align: center;
+}
+
+main {
+  margin: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+section {
+  padding: 12px 16px;
+  background: var(--section-bg-colour);
+  border-radius: 8px;
+}
+
+section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+button {
+  padding: 4px 8px;
+}
+
+input {
+  padding-left: 4px;
+}
+
+textarea {
+  padding: 4px 8px;
+}
+
+/* Instructions */
+.instructions summary {
+  user-select: none;
+  cursor: pointer;
+}
+
+.instructions summary h2 {
+  display: inline-block;
+}
+
+/* Settings */
+div.settings-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+div.field-group {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+fieldset {
+  padding: 12px 12px;
+  background-color: var(--fieldset-bg-colour);
+  border-radius: 4px;
   flex: 1;
 }
 
-.output > div > textarea {
+fieldset legend {
+  padding: 8px 12px;
+  padding-bottom: 0;
+  margin-left: -12px;
+  background-color: var(--fieldset-bg-colour);
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+p.description {
+  color: var(--description-fg-colour);
+  font-size: 0.8rem;
+}
+
+.field-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-left-align-buttons {
+  padding-left: 18.45px;
+}
+
+/* Output */
+div.output-box {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+div.output-box > div {
+  flex: 1;
+}
+
+.output-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+section.output textarea {
   width: 100%;
+  height: 32rem;
   resize: none;
 }
